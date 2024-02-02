@@ -1,6 +1,3 @@
-import pandas as pd
-from bokeh.plotting import figure
-from bokeh.embed import components
 from flask import Flask, render_template, request
 from models.ohm_model import OHM
 
