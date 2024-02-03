@@ -62,10 +62,10 @@ The OHM model is an agent-based simulation designed to model a staking token eco
 
 1. **Run Model:**
    ```bash
-   docker-compose up
+   docker-compose up build
 
    
-   Visit http://127.0.0.1:8000 in your browser.
+   Visit http://127.0.0.1:8000  / http://localhost:8000/ in your browser.
 
 ## Acknowledgments
 This model uses the agentpy library for agent-based modeling.
