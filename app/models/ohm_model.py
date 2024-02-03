@@ -53,17 +53,7 @@ class OHM(ap.Model):
         self.validators_middleware = ap.AgentList(self, self.num_validators_middleware, Validator)
         self.treasury = 0
         self.total_supply = self.initial_supply * (1 + self.yearly_emissions)  # Initialize total_supply
-
-
-    def adjust_parameters(self, agent, scenario):
-        # Common adjustments for all agents
-        if scenario == 'bull':
-            agent.validator_incentives *= 1.2
-            agent.operational_cost *= 0.9
-        elif scenario == 'bear':
-            agent.validator_incentives *= 0.8
-            agent.operational_cost *= 1.2
-            agent.performance *= 0.9
+        
 
     def staker_behaviors(self):
         # Staker behaviors
@@ -84,13 +74,45 @@ class OHM(ap.Model):
 
 
     def validator_behaviors(self, validators):
-        for validator in validators:
+        # Validator behaviors
+        for validator in self.validators_L1:
             validation_reward = validator.validate() * self.validator_incentives
             self.treasury += validation_reward
             validator.operational_cost += self.operational_cost_per_validator
-            self.adjust_parameters(validator, self.p.economic_outlook_scenarios)
 
-    
+            # Additional behaviors in a bull market
+            if self.p.economic_outlook_scenarios == 'bull':
+                # Adjust parameters for bull market
+                validator.validator_incentives *= 1.2  # Increase validation rewards
+                validator.operational_cost *= 0.9  # Decrease operational costs
+                validator.performance *= 1.1  # Increase performance
+
+            # Additional behaviors in a bear market
+            if self.p.economic_outlook_scenarios == 'bull':
+                # Adjust parameters for bear market
+                validator.validator_incentives *= 0.8  # Decrease validation rewards
+                validator.operational_cost *= 1.2  # Increase operational costs
+                validator.performance *= 0.9  # Decrease performance
+
+
+        for validator in self.validators_middleware:
+            validation_reward = validator.validate() * self.validator_incentives
+            self.treasury += validation_reward
+            validator.operational_cost += self.operational_cost_per_validator
+
+            # Additional behaviors in a bull market
+            if self.p.economic_outlook_scenarios == 'bull':
+                # Adjust parameters for bull market
+                validator.validator_incentives *= 1.2  # Increase validation rewards
+                validator.operational_cost *= 0.9  # Decrease operational costs
+                validator.performance *= 1.1  # Increase performance
+
+            # Additional behaviors in a bear market
+            if self.p.economic_outlook_scenarios == 'bear':
+                # Adjust parameters for bear market
+                validator.validator_incentives *= 0.8  # Decrease validation rewards
+                validator.operational_cost *= 1.2  # Increase operational costs
+                validator.performance *= 0.9  # Decrease performance
 
     def step(self):
         print(f"\n Current economic outlook scenarios: {self.p.economic_outlook_scenarios}")
@@ -179,3 +201,4 @@ class OHM(ap.Model):
         print(f"Total supply at step {self.current_step}: {self.total_supply}")
         self.record('Total_Supply', self.total_supply)
 
+    
