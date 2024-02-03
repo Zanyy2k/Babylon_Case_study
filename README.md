@@ -63,6 +63,8 @@ The OHM model is an agent-based simulation designed to model a staking token eco
 1. **Run Model:**
    ```bash
    docker-compose up
+
+   
    Visit http://127.0.0.1:8000 in your browser.
 
 ## Acknowledgments
