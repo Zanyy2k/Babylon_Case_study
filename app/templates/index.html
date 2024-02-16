@@ -11,7 +11,8 @@
     <h1>Choose Market Condition</h1>
     <form action="/run_simulation" method="post">
         <label for="market_condition">Select Market Condition:</label>
-        <select name="market_condition" id="market_condition">
+        <select name="market_condition" id="market_condition" required>
+            <option value="" disabled selected>Please select</option>
             <option value="bull">Bull Market</option>
             <option value="bear">Bear Market</option>
             <option value="base">Base Market</option>
@@ -20,9 +21,12 @@
         <button type="submit">Run Simulation</button>
     </form>
 
-
+    <!-- Show result only if market_condition is selected -->
+    {% if table_html %}
     <h1>Simulation Result</h1>
     <p>{{ table_html | safe }}</p>
+    <p>{{ explanation_txt | safe }}</p>
+    {% endif %}
 
 </body>
 
