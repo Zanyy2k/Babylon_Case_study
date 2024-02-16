@@ -88,7 +88,7 @@ class OHM(ap.Model):
                 validator.performance *= 1.1  # Increase performance
 
             # Additional behaviors in a bear market
-            if self.p.economic_outlook_scenarios == 'bull':
+            if self.p.economic_outlook_scenarios == 'bear':
                 # Adjust parameters for bear market
                 validator.validator_incentives *= 0.8  # Decrease validation rewards
                 validator.operational_cost *= 1.2  # Increase operational costs
